@@ -38,6 +38,7 @@ from pandas_datareader.yahoo.components import _get_data as get_components_yahoo
 from pandas_datareader.yahoo.daily import YahooDailyReader
 from pandas_datareader.yahoo.options import Options as YahooOptions
 from pandas_datareader.yahoo.quotes import YahooQuotesReader
+from pandas_datareader.sdw import SDWReader
 
 __all__ = [
     "get_components_yahoo",
@@ -369,6 +370,7 @@ def DataReader(
         "av-monthly-adjusted",
         "av-intraday",
         "econdb",
+        "sdw"
     ]
 
     if data_source not in expected_source:
@@ -653,6 +655,16 @@ def DataReader(
 
     elif data_source == "econdb":
         return EcondbReader(
+            symbols=name,
+            start=start,
+            end=end,
+            retry_count=retry_count,
+            pause=pause,
+            session=session,
+        ).read()
+
+    elif data_source == "sdw":
+        return SDWReader(
             symbols=name,
             start=start,
             end=end,
